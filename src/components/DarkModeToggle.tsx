@@ -1,11 +1,10 @@
-"use client"; // This is a client component because it uses state and effects.
+"use client";
 import { useState, useEffect } from "react";
 
 export default function DarkModeToggle() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    // Toggle the dark class on the <html> element
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
@@ -22,3 +21,4 @@ export default function DarkModeToggle() {
     </button>
   );
 }
+

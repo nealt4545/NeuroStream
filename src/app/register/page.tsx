@@ -34,7 +34,6 @@ export default function RegisterPage() {
         setError(data.error || "Registration failed");
       } else {
         setSuccess(data.message);
-        // Optionally, redirect after registration
         router.push("/");
       }
     } catch (err) {
@@ -43,7 +42,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-4 bg-white dark:bg-gray-800 rounded shadow">
+    <div className="max-w-md mx-auto mt-10 p-4 bg-white rounded shadow text-black">
       <h2 className="text-2xl font-bold mb-4">Register</h2>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-500 mb-4">{success}</p>}
@@ -56,10 +55,10 @@ export default function RegisterPage() {
             type="text"
             name="username"
             id="username"
-            value={formData.username}
-            onChange={handleChange}
             className="w-full p-2 border rounded"
             required
+            value={formData.username}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -70,10 +69,10 @@ export default function RegisterPage() {
             type="email"
             name="email"
             id="email"
-            value={formData.email}
-            onChange={handleChange}
             className="w-full p-2 border rounded"
             required
+            value={formData.email}
+            onChange={handleChange}
           />
         </div>
         <div>
@@ -84,13 +83,16 @@ export default function RegisterPage() {
             type="password"
             name="password"
             id="password"
-            value={formData.password}
-            onChange={handleChange}
             className="w-full p-2 border rounded"
             required
+            value={formData.password}
+            onChange={handleChange}
           />
         </div>
-        <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded">
+        <button
+          type="submit"
+          className="w-full p-2 bg-blue-600 text-white rounded"
+        >
           Register
         </button>
       </form>
