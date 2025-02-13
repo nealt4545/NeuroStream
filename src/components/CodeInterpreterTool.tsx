@@ -4,14 +4,15 @@ import { useState } from "react";
 
 export default function CodeInterpreterTool() {
   const [inputCode, setInputCode] = useState("");
-  const [explanation, setExplanation] = useState("");
+  const [interpretation, setInterpretation] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleInterpret = async () => {
+    if (!inputCode.trim()) return;
     setLoading(true);
     setError("");
-    setExplanation("");
+    setInterpretation("");
     try {
       const res = await fetch("/api/code-interpreter", {
         method: "POST",
@@ -20,15 +21,14 @@ export default function CodeInterpreterTool() {
       });
       const data = await res.json();
       if (res.ok) {
-        setExplanation(data.explanation);
+        setInterpretation(data.interpretation || "No interpretation provided");
       } else {
         setError(data.error || "Error interpreting code");
       }
-    } catch (err) {
+    } catch {
       setError("Failed to interpret code");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
@@ -49,12 +49,13 @@ export default function CodeInterpreterTool() {
         {loading ? "Interpreting..." : "Interpret Code"}
       </button>
       {error && <p className="text-red-500 mt-2">{error}</p>}
-      {explanation && (
+      {interpretation && (
         <div className="mt-4">
-          <h3 className="font-bold">Explanation:</h3>
-          <p>{explanation}</p>
+          <h3 className="font-bold">Interpretation:</h3>
+          <pre className="whitespace-pre-wrap bg-gray-100 p-2 rounded text-black">{interpretation}</pre>
         </div>
       )}
     </div>
   );
 }
+
