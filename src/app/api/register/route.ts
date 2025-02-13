@@ -1,42 +1,19 @@
+// src/app/api/register/route.ts
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 
-// This in-memory array is for demonstration only.
-// In production, replace this with a real database.
-let users: { username: string; email: string; passwordHash: string }[] = [];
+// Dummy in-memory users store (for demo purposes)
+const users = [];
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { username, email, password } = body;
-    
+    const { username, email, password } = await request.json();
     if (!username || !email || !password) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
-    
-    // Check if the user already exists
-    const userExists = users.find(user => user.username === username);
-    if (userExists) {
-      return NextResponse.json(
-        { error: "User already exists" },
-        { status: 400 }
-      );
-    }
-    
-    // Hash the password (do not store plaintext passwords in production)
-    const passwordHash = await bcrypt.hash(password, 10);
-    
-    // Save the new user in the in-memory store
-    users.push({ username, email, passwordHash });
-    
-    return NextResponse.json({ message: "User registered successfully" });
+    // For demo, push user into in-memory array
+    users.push({ username, email, password });
+    return NextResponse.json({ message: "Registration successful" });
   } catch (error) {
-    return NextResponse.json(
-      { error: "Something went wrong" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }

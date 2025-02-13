@@ -1,25 +1,19 @@
+// src/app/register/page.tsx
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setSuccess("");
@@ -36,7 +30,7 @@ export default function RegisterPage() {
         setSuccess(data.message);
         router.push("/");
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong");
     }
   };
@@ -48,9 +42,7 @@ export default function RegisterPage() {
       {success && <p className="text-green-500 mb-4">{success}</p>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="username" className="block mb-1">
-            Username
-          </label>
+          <label htmlFor="username" className="block mb-1">Username</label>
           <input
             type="text"
             name="username"
@@ -62,9 +54,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label htmlFor="email" className="block mb-1">
-            Email
-          </label>
+          <label htmlFor="email" className="block mb-1">Email</label>
           <input
             type="email"
             name="email"
@@ -76,9 +66,7 @@ export default function RegisterPage() {
           />
         </div>
         <div>
-          <label htmlFor="password" className="block mb-1">
-            Password
-          </label>
+          <label htmlFor="password" className="block mb-1">Password</label>
           <input
             type="password"
             name="password"
@@ -89,13 +77,9 @@ export default function RegisterPage() {
             onChange={handleChange}
           />
         </div>
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-600 text-white rounded"
-        >
-          Register
-        </button>
+        <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded">Register</button>
       </form>
     </div>
   );
 }
+

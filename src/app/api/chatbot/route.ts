@@ -1,7 +1,7 @@
 // src/app/api/chatbot/route.ts
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]/route"; // Adjust the path if necessary
+import { authOptions } from "../auth/[...nextauth]/route"; // Adjust path as needed
 import { getUsage, incrementUsage } from "../../../lib/usageStore";
 
 export async function POST(request: Request) {
@@ -11,9 +11,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const userId = session.user.id as string;
-  // Assume isSubscribed flag is present in session (false for free users)
-  const isSubscribed = session.user.isSubscribed || false;
-  const dailyLimit = 5; // Free users get 5 messages per day
+  const isSubscribed = session.user.isSubscribed;
+  const dailyLimit = 5;
 
   if (!isSubscribed) {
     const currentUsage = getUsage(userId);
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No messages provided" }, { status: 400 });
     }
 
-    // Call OpenAI Chat Completions API with the conversation history
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -49,12 +47,10 @@ export async function POST(request: Request) {
       }),
     });
 
-    // Try to parse the response as JSON
     let data;
     try {
       data = await response.json();
-    } catch (jsonError) {
-      // If parsing fails, fall back to reading the response as text
+    } catch {
       const text = await response.text();
       console.error("Failed to parse JSON. Response text:", text);
       return NextResponse.json({ error: "Failed to parse response", details: text }, { status: response.status });
@@ -62,7 +58,6 @@ export async function POST(request: Request) {
     
     console.log("OpenAI response data:", data);
     
-    // If the response status is not OK, log the error details
     if (!response.ok) {
       console.error("OpenAI API returned error status:", response.status, data);
       return NextResponse.json({ error: "OpenAI API call failed", details: data }, { status: response.status });

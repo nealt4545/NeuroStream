@@ -24,8 +24,8 @@ export default function SummarizerTool() {
       } else {
         setError(data.error || "Error summarizing text");
       }
-    } catch (err) {
-      setError("Failed to summarize");
+    } catch {
+      setError("Failed to summarize text");
     } finally {
       setLoading(false);
     }
@@ -51,10 +51,11 @@ export default function SummarizerTool() {
       {error && <p className="text-red-500 mt-2">{error}</p>}
       {summary && (
         <div className="mt-4">
-          <h3 className="font-bold text-black">Summary:</h3>
+          <h3 className="font-bold">Summary:</h3>
           <p className="text-black">{summary}</p>
         </div>
       )}
     </div>
   );
 }
+

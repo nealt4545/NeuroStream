@@ -1,13 +1,12 @@
 // src/components/ParticleBackground.tsx
 "use client";
-
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import type { Engine } from "tsparticles-engine";
 
 export default function ParticleBackground() {
-  const particlesInit = async (main: any) => {
-    // Loads the tsparticles package bundle.
-    await loadFull(main);
+  const particlesInit = async (engine: Engine) => {
+    await loadFull(engine);
   };
 
   return (
@@ -44,3 +43,4 @@ export default function ParticleBackground() {
     />
   );
 }
+
