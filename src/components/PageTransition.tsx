@@ -1,6 +1,8 @@
+// src/components/PageTransition.tsx
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 interface PageTransitionProps {
   children: React.ReactNode;
@@ -23,3 +25,4 @@ export default function PageTransition({ children }: PageTransitionProps) {
     </AnimatePresence>
   );
 }
+
