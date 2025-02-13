@@ -9,6 +9,7 @@ export default function CodeGeneratorTool() {
   const [error, setError] = useState("");
 
   const handleGenerate = async () => {
+    if (!description.trim()) return;
     setLoading(true);
     setError("");
     setGeneratedCode("");
@@ -24,11 +25,10 @@ export default function CodeGeneratorTool() {
       } else {
         setError(data.error || "Error generating code");
       }
-    } catch (err) {
+    } catch {
       setError("Failed to generate code");
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
@@ -58,3 +58,4 @@ export default function CodeGeneratorTool() {
     </div>
   );
 }
+
