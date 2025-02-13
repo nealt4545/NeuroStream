@@ -1,6 +1,6 @@
 // src/app/dashboard/developer/page.tsx
 "use client";
-import PageTransition from "../../../components/PageTransition";
+import PageTransition from "../../components/PageTransition";
 import Link from "next/link";
 
 export default function DeveloperDashboard() {
