@@ -1,33 +1,26 @@
-// src/app/api/stripe/checkout/route.ts
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-// Initialize Stripe with your secret key from the environment variable
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2025-01-27.acacia",
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2025-01-27.acacia", // Ensure correct API version
 });
 
-export async function POST(request: Request) {
-}
-
-    // Create a new Checkout Session for subscription mode
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+    
     const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price: priceId, // This should be the ID of the recurring price in your Stripe dashboard
-          quantity: 1,
-        },
-      ],
-      // Adjust the URLs as necessary
-      success_url: `${process.env.NEXTAUTH_URL}/dashboard?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXTAUTH_URL}/`,
+      line_items: body.items,
+      mode: "payment",
+      success_url: `${process.env.NEXTAUTH_URL}/success`,
+      cancel_url: `${process.env.NEXTAUTH_URL}/cancel`,
     });
 
     return NextResponse.json({ sessionId: session.id });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Stripe Checkout Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
+
