@@ -21,3 +21,4 @@ export default function AnimatedLink({ href, text }: AnimatedLinkProps) {
     </Link>
   );
 }
+
