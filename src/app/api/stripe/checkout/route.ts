@@ -4,15 +4,11 @@ import Stripe from "stripe";
 
 // Initialize Stripe with your secret key from the environment variable
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2022-11-15",
+  apiVersion: "2025-01-27.acacia",
 });
 
 export async function POST(request: Request) {
-  try {
-    const { priceId } = await request.json();
-    if (!priceId) {
-      return NextResponse.json({ error: "No priceId provided" }, { status: 400 });
-    }
+}
 
     // Create a new Checkout Session for subscription mode
     const session = await stripe.checkout.sessions.create({
