@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     users.push({ username, email, password });
     return NextResponse.json({ message: "Registration successful" });
   } catch (error) {
-    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
+  console.error(error); // Logs the error (fixes the lint issue)
   }
 }
 
